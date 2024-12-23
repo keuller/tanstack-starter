@@ -1,12 +1,27 @@
+import { newId, hashPassword } from "~/utils";
+import { conn } from "~/lib/database";
+import { useMutation } from "~/utils/useMutation";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn, useServerFn } from "@tanstack/start";
-import { useMutation } from "~/utils/useMutation";
+import type { InsertUser } from "~/lib/store/schema";
+import { createUser } from "~/lib/store/user.store";
+
+type TRegisterForm = { username: string; email: string; password: string };
 
 const registerAction = createServerFn({ method: "POST" })
-    .validator((data: unknown) => data as Record<string, string>)
+    .validator((data: unknown) => data as TRegisterForm)
     .handler(async ({ data }) => {
-        await new Promise((r) => setTimeout(r, 1500));
-        console.log("[register]", data);
+        const { email, password, username } = data;
+        const newUser: InsertUser = {
+            id: newId(),
+            username,
+            email,
+            password: await hashPassword(password),
+            active: true
+        };
+
+        await createUser(conn(), newUser);
+
         throw redirect({ to: "/login", statusCode: 302 });
     });
 
@@ -16,7 +31,6 @@ export const Route = createFileRoute('/register')({
 });
 
 function Register() {
-    // const register = useServerFn(registerAction);
     const { mutate: register, status } = useMutation({
         fn: useServerFn(registerAction),
     });
@@ -35,8 +49,8 @@ function Register() {
                 <h3 className="text-xl font-bold leading-6">Create your account!</h3>
 
                 <div className="space-y-1">
-                    <label htmlFor="name" className="block w-fit pl-0.5 text-sm"> Name </label>
-                    <input id="name" type="text" name="name" maxLength={40} required
+                    <label htmlFor="username" className="block w-fit pl-0.5 text-sm"> Name </label>
+                    <input id="username" type="text" name="username" maxLength={40} required
                         className="w-full rounded-xl border border-slate-300 bg-slate-100 px-2 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-800/50 dark:focus-visible:outline-blue-600"
                     />
                 </div>
