@@ -1,29 +1,11 @@
-import { newId, hashPassword } from "~/utils";
-import { conn } from "~/lib/database";
 import { useMutation } from "~/utils/useMutation";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn, useServerFn } from "@tanstack/start";
-import type { InsertUser } from "~/lib/store/schema";
-import { createUser } from "~/lib/store/user.store";
+import { registerActionHandler, type TRegisterForm } from "~/lib/handlers/register";
 
-type TRegisterForm = { username: string; email: string; password: string };
-
-const registerAction = createServerFn({ method: "POST" })
+export const registerAction = createServerFn({ method: "POST" })
     .validator((data: unknown) => data as TRegisterForm)
-    .handler(async ({ data }) => {
-        const { email, password, username } = data;
-        const newUser: InsertUser = {
-            id: newId(),
-            username,
-            email,
-            password: await hashPassword(password),
-            active: true
-        };
-
-        await createUser(conn(), newUser);
-
-        throw redirect({ to: "/login", statusCode: 302 });
-    });
+    .handler(registerActionHandler);
 
 export const Route = createFileRoute('/register')({
     ssr: true,

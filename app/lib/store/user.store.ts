@@ -7,6 +7,8 @@ export async function createUser(db: StarterDB, user: InsertUser): Promise<unkno
 }
 
 export function fetchUserByEmail(db: StarterDB, email: string) {
-    const user = db.select().from(usersTable).where(eq(usersTable.email, email)).run();
-    console.log(user);
+    return db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1).then((res) => {
+        if (res.length === 1) return res[0];
+        throw new Error("No user found");
+    })
 }

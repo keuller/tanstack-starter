@@ -1,26 +1,12 @@
-import { setCookie, setResponseStatus } from "vinxi/http";
-import { createServerFn, useServerFn } from "@tanstack/start";
-import { createFileRoute, redirect } from '@tanstack/react-router';
 import { useMutation } from "~/utils/useMutation";
 import { AlertWarning } from "~/components/Alerts";
-
-type TLoginForm = { email: string; password: string; }
+import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn, useServerFn } from "@tanstack/start";
+import { loginActionHandler, type TLoginForm } from "~/lib/handlers/login";
 
 const loginAction = createServerFn({ method: "POST" })
     .validator((data: unknown) => data as TLoginForm)
-    .handler(async ({ data }) => {
-        const validCredentials = data.email === "admin@test.com" && data.password === "abc123";
-
-        await new Promise((r) => setTimeout(r, 1500));
-
-        if (validCredentials) {
-            setCookie("user", "user-test", { maxAge: 300, httpOnly: true, path: "/", secure: true });
-            throw redirect({ to: "/", reloadDocument: true });
-        }
-
-        setResponseStatus(400, "Invalid credentials");
-        return { message: "Invalid credentials, try again." }
-    });
+    .handler(loginActionHandler);
 
 export const Route = createFileRoute('/login')({
     ssr: true,
