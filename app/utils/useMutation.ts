@@ -23,9 +23,8 @@ export function useMutation<TVariables, TData, TError = Error>(opts: {
                 setData(data);
                 return data;
             } catch (err: any) {
-                const { result } = JSON.parse(err.message).body;
                 setStatus('error');
-                setError(result);
+                setError(err.result);
             }
         },
         [opts.fn],
