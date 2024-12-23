@@ -5,6 +5,7 @@ export function createRouter() {
     const router = createTanStackRouter({
         routeTree,
         defaultPreload: "intent",
+        defaultViewTransition: true,
         defaultNotFoundComponent: () => (
             <div>Page Not Found! :(</div>
         ),

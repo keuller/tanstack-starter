@@ -16,9 +16,9 @@ export default function AppHeader() {
             <h2 className="text-xl font-medium">Starter</h2>
             {!isUser && (
                 <nav className="flex gap-1 items-center">
-                    <Link to="/login" className="text-sm" viewTransition>Login</Link>
+                    <Link to="/login" className="text-sm">Login</Link>
                     <span>&nbsp;|&nbsp;</span>
-                    <Link to="/register" className="text-sm" viewTransition>Register</Link>
+                    <Link to="/register" className="text-sm">Register</Link>
                 </nav>
             )}
 

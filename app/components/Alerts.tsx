@@ -1,4 +1,6 @@
-export function AlertSuccess({ title, message }: { title: string; message: string }) {
+export type TAlertProps = { title: string; message: string };
+
+export function AlertSuccess({ title, message }: TAlertProps) {
     return (
         <div className="flex items-start w-full gap-4 px-4 py-3 text-sm border rounded border-emerald-100 bg-emerald-50 text-emerald-500" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" role="graphics-symbol" aria-labelledby="title-01 desc-01">
@@ -11,7 +13,7 @@ export function AlertSuccess({ title, message }: { title: string; message: strin
     );
 }
 
-export function AlertWarning({ title, message }: { title: string; message: string }) {
+export function AlertWarning({ title, message }: TAlertProps) {
     return (
         <div className="flex items-start w-full gap-4 px-4 py-3 text-sm border rounded border-amber-100 bg-amber-50 text-amber-500" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" role="graphics-symbol" aria-labelledby="title-02 desc-02">
