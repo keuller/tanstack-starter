@@ -20,18 +20,18 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@tanstack/react-router": "1.92.3",
-    "@tanstack/start": "1.92.3",
+    "@tanstack/react-router": "1.92.11",
+    "@tanstack/start": "1.92.11",
     "better-sqlite3": "11.7.0",
-    "drizzle-orm": "0.38.2",
-    "drizzle-zod": "0.6.0",
+    "drizzle-orm": "0.38.3",
+    "drizzle-zod": "0.6.1",
     "nanoid": "5.0.9",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "vinxi": "0.5.1"
   },
   "devDependencies": {
-    "@tanstack/router-devtools": "1.92.3",
+    "@tanstack/router-devtools": "1.92.11",
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^22.10.2",
     "@types/react": "18.3.12",
